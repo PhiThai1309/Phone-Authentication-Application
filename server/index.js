@@ -84,7 +84,8 @@ app.post("/check/:to/:code", async (req, res) => {
     .then((doc) => {
       console.log(doc.data());
       console.log(code);
-      if (doc.data().accessCode.toString() === code.toString()) {
+      console.log(phone);
+      if (doc.exists && doc.data().accessCode.toString() === code.toString()) {
         console.log("Document data:", doc.data());
         db.collection("users")
           .doc(phone)

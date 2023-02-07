@@ -6,7 +6,7 @@ const BaseURL = "http://localhost:8000";
 const LoginInput = () => {
   const [phone, setPhone] = useState("");
   const [verfication, setVerfication] = useState("");
-  const [checkedNumber, setCheckedNumber] = useState("");
+  // const [checkedNumber, setCheckedNumber] = useState("");
 
   const phoneInputHandler = (event) => {
     setPhone(event.target.value);
@@ -31,7 +31,6 @@ const LoginInput = () => {
       .then((res) => {
         console.log(res);
         if (res.status === "sent") {
-          setCheckedNumber(phone);
           alert("Code sent");
         }
       })
@@ -42,31 +41,32 @@ const LoginInput = () => {
 
   const verifyCode = (event) => {
     event.preventDefault();
-    // Now check if the verfication inserted was the same as
-    // the one sent
-    console.log(checkedNumber);
-    console.log(`${BaseURL}/check/${"" + phone}/${verfication}`);
-    fetch(`${BaseURL}/check/${phone}/${verfication}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        // if (res.status === "approved") {
-        //   alert("Phone Verfied");
-        // } else {
-        //   // Handle other error cases like network connection problems
-        //   alert("Verfication failed try again!!");
-        // }
-        if (res.check) {
-          alert("Phone Verfied");
-        } else {
-          alert("Verfication failed try again!!");
-        }
-      });
+
+    if (phone.length !== 0 && verfication.length === 6) {
+      // Now check if the verfication inserted was the same as
+      // the one sent
+      console.log(`${BaseURL}/check/${"" + phone}/${verfication}`);
+      fetch(`${BaseURL}/check/${phone}/${verfication}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          if (res.check) {
+            alert("Phone Verfied");
+          } else {
+            alert("Verfication failed try again!!");
+          }
+        });
+    } else if (verfication.length < 6) {
+      alert("Please enter a valid access code");
+    } else {
+      alert("Please enter both phone number and access code");
+      return;
+    }
   };
   return (
     <form>
