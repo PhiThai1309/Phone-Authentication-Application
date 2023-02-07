@@ -1,6 +1,6 @@
 // server/index.js
 const accountSid = "AC83d2ed5f08a87a5f8874874da50788d0";
-const authToken = "074ab5cd392a055b42daf8f7f5ece30f";
+const authToken = "cb5afc108acc101d4daf1f44912a80c3";
 const serviceId = "VA522500fdcd62e054712a7ef26400d5c0";
 const twilio = require("twilio");
 const client = new twilio(accountSid, authToken);
@@ -40,16 +40,18 @@ app.post("/code/:to", async (req, res) => {
   //6 ditgit access code
   const accessCode = Math.floor(Math.random() * 1000000);
 
-  client.messages
-    .create({ body: accessCode, from: "+13093003923", to: phone })
-    .then((message) => console.log(message.sid));
-
   console.log(phone);
 
-  // const docRef = await addDoc(collection(db, "users"), {
-  //   phone: to,
-  // });
-  // res.json(docRef);
+  client.messages
+    .create({ body: accessCode, from: "+13093003923", to: phone })
+    .then((message) => {
+      console.log(message.sid);
+      res.json({ status: "sent" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({ status: "error" });
+    });
 
   const id = Math.random().toString();
   const entryObject = {
@@ -61,9 +63,6 @@ app.post("/code/:to", async (req, res) => {
   db.collection("users")
     .doc(phone)
     .set(entryObject)
-    // .then((docRef) => {
-    //   alert("Data Successfully Submitted");
-    // })
     .catch((error) => {
       console.error("Error adding document: ", error);
     });
@@ -83,7 +82,9 @@ app.post("/check/:to/:code", async (req, res) => {
     .doc(phone)
     .get()
     .then((doc) => {
-      if (doc.exists && doc.data().accessCode === code) {
+      console.log(doc.data());
+      console.log(code);
+      if (doc.data().accessCode.toString() === code.toString()) {
         console.log("Document data:", doc.data());
         db.collection("users")
           .doc(phone)

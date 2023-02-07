@@ -30,10 +30,9 @@ const LoginInput = () => {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        if (res.status === "pending") {
+        if (res.status === "sent") {
           setCheckedNumber(phone);
-        } else if (res.status === "approved") {
-          console.log("approved");
+          alert("Code sent");
         }
       })
       .catch((err) => {

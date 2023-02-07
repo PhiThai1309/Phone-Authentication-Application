@@ -77,4 +77,5 @@ https://medium.com/swlh/creating-phone-number-verification-component-using-react
 https://www.freecodecamp.org/news/how-to-create-a-react-app-with-a-node-backend-the-complete-guide/ .\
 https://www.tutorialspoint.com/expressjs/expressjs_routing.htm .\
 https://github.com/twilio-labs/function-templates/tree/main/verify .\
+https://www.twilio.com/docs/sms/send-messages
 
