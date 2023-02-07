@@ -1,12 +1,14 @@
 // server/index.js
-const accountSid = "AC863a0a5b95003d35d76e8e7efbab6d5c";
-const authToken = "478eb08bbd100e69441c74ff8967f316";
-const serviceId = "VA636fb26f7ee1abd2c737ec3d8b189b55";
+const accountSid = "AC83d2ed5f08a87a5f8874874da50788d0";
+const authToken = "074ab5cd392a055b42daf8f7f5ece30f";
+const serviceId = "VA522500fdcd62e054712a7ef26400d5c0";
 const twilio = require("twilio");
 const client = new twilio(accountSid, authToken);
 
 const express = require("express");
 var cors = require("cors");
+// const admin = require("firebase-admin");
+const db = require("../firebase");
 
 const PORT = process.env.PORT || 8000;
 
@@ -22,30 +24,94 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-app.get("/code/:to", async (req, res) => {
-  const to = req.params.to;
+app.post("/code/:to", async (req, res) => {
+  const phone = req.params.to;
 
-  client.verify
-    .services(serviceId)
-    .verifications.create({ to, channel: "sms" })
-    .then((verification) => {
-      res.json(verification);
-    })
-    .catch((err) => {
-      res.json(err);
+  // client.verify
+  //   .services(serviceId)
+  //   .verifications.create({ to, channel: "sms" })
+  //   .then((verification) => {
+  //     res.json(verification);
+  //   })
+  //   .catch((err) => {
+  //     res.json(err);
+  //   });
+
+  //6 ditgit access code
+  const accessCode = Math.floor(Math.random() * 1000000);
+
+  client.messages
+    .create({ body: accessCode, from: "+13093003923", to: phone })
+    .then((message) => console.log(message.sid));
+
+  console.log(phone);
+
+  // const docRef = await addDoc(collection(db, "users"), {
+  //   phone: to,
+  // });
+  // res.json(docRef);
+
+  const id = Math.random().toString();
+  const entryObject = {
+    id: phone,
+    phoneNo: phone,
+    accessCode: accessCode,
+  };
+
+  db.collection("users")
+    .doc(phone)
+    .set(entryObject)
+    // .then((docRef) => {
+    //   alert("Data Successfully Submitted");
+    // })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
     });
 });
 
-app.get("/check/:to/:code", async (req, res) => {
-  const to = req.params.to;
+app.post("/check/:to/:code", async (req, res) => {
+  const phone = req.params.to;
   const code = req.params.code;
-  client.verify
-    .services(serviceId)
-    .verificationChecks.create({ to, code })
-    .then((verification) => {
-      res.json(verification);
+
+  const verifiedPhone = {
+    id: phone,
+    phoneNo: phone,
+    accessCode: "",
+  };
+
+  db.collection("users")
+    .doc(phone)
+    .get()
+    .then((doc) => {
+      if (doc.exists && doc.data().accessCode === code) {
+        console.log("Document data:", doc.data());
+        db.collection("users")
+          .doc(phone)
+          .set(verifiedPhone)
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+          });
+        res.json({ check: true });
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+        res.json({ check: false });
+      }
     })
-    .catch((err) => {
-      res.json(err);
+    .catch((error) => {
+      console.log("Error getting document:", error);
     });
+  // ref.once(phone, (data) => {
+  //   data.accessCode === code;
+  //   res.json({ check: true });
+  // });
+  // client.verify
+  //   .services(serviceId)
+  //   .verificationChecks.create({ to, code })
+  //   .then((verification) => {
+  //     res.json(verification);
+  //   })
+  //   .catch((err) => {
+  //     res.json(err);
+  //   });
 });

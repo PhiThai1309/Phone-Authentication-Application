@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./LoginInput.css";
 
-const BaseURL = "http://192.168.1.6:8000";
+const BaseURL = "http://localhost:8000";
 
 const LoginInput = () => {
   const [phone, setPhone] = useState("");
@@ -22,7 +22,7 @@ const LoginInput = () => {
     event.preventDefault();
     // send verfication code to phone number
     fetch(`${BaseURL}/code/${phone}`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -48,7 +48,7 @@ const LoginInput = () => {
     console.log(checkedNumber);
     console.log(`${BaseURL}/check/${"" + phone}/${verfication}`);
     fetch(`${BaseURL}/check/${phone}/${verfication}`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -56,10 +56,15 @@ const LoginInput = () => {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        if (res.status === "approved") {
+        // if (res.status === "approved") {
+        //   alert("Phone Verfied");
+        // } else {
+        //   // Handle other error cases like network connection problems
+        //   alert("Verfication failed try again!!");
+        // }
+        if (res.check) {
           alert("Phone Verfied");
         } else {
-          // Handle other error cases like network connection problems
           alert("Verfication failed try again!!");
         }
       });
