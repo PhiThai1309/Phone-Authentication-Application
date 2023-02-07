@@ -1,3 +1,50 @@
+# Phone Authentication Application
+<p align="center">
+<img height="450" alt="image" src="https://user-images.githubusercontent.com/71892904/217311080-4fba007a-1a92-4a89-8feb-293c839c5e93.png">
+</p>
+
+## Table of contents
+
+- [Overview](#overview)
+- [Functionalities](#Functionalities)
+- [Built with](#built-with)
+- [Author](#author)
+
+
+## Overview
+
+This is a small project that I develop to learn about React JS as well as Node JS and Express JS. This web application will authenticate a phone number by sending a 6 digit access code using SMS service provided by Twilio library and store the access code that is linked with corresponding phone number in Firestore.
+
+### Functionalities
+
+Users should be able to verify a phone number if it is real or not
+
+### Built with
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=js" />
+  <img src="https://skillicons.dev/icons?i=css">
+  <img src="https://skillicons.dev/icons?i=react">
+  <img src="https://skillicons.dev/icons?i=express">
+  <img src="https://skillicons.dev/icons?i=nodejs">
+  <img src="https://skillicons.dev/icons?i=firebase">
+  <a href="https://www.twilio.com/">
+  <img height="45" src="https://user-images.githubusercontent.com/71892904/217313401-0975de41-16c9-49a6-ac4b-3eb4a9b2a855.png">
+  </a>
+  <img src="https://skillicons.dev/icons?i=postman">
+  <img src="https://skillicons.dev/icons?i=vscode">
+</p>
+
+- Visual Studio Code
+- React JS, CSS
+- Express JS & Node JS
+- Github & Git
+- Firestore database provided by Firebase
+- SMS service provided by Twilio
+
+## Author
+- Thai Manh Phi: Total contribution: 100%
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
