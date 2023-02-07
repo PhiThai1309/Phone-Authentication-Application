@@ -7,7 +7,6 @@ const client = new twilio(accountSid, authToken);
 
 const express = require("express");
 var cors = require("cors");
-// const admin = require("firebase-admin");
 const db = require("../firebase");
 
 const PORT = process.env.PORT || 8000;
@@ -16,32 +15,18 @@ const app = express();
 
 app.use(cors());
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server! My name is Phi Thai" });
-});
-
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
+//Create a post response to send a code to the phone number
 app.post("/code/:to", async (req, res) => {
   const phone = req.params.to;
-
-  // client.verify
-  //   .services(serviceId)
-  //   .verifications.create({ to, channel: "sms" })
-  //   .then((verification) => {
-  //     res.json(verification);
-  //   })
-  //   .catch((err) => {
-  //     res.json(err);
-  //   });
 
   //6 ditgit access code
   const accessCode = Math.floor(Math.random() * 1000000);
 
-  console.log(phone);
-
+  //Send the code to the phone number using Twilio
   client.messages
     .create({ body: accessCode, from: "+13093003923", to: phone })
     .then((message) => {
@@ -53,13 +38,17 @@ app.post("/code/:to", async (req, res) => {
       res.json({ status: "error" });
     });
 
+  //create a random id for the document
   const id = Math.random().toString();
+
+  //create an object to store the phone number and access code
   const entryObject = {
     id: phone,
     phoneNo: phone,
     accessCode: accessCode,
   };
 
+  //store the phone number and access code in firestore
   db.collection("users")
     .doc(phone)
     .set(entryObject)
@@ -68,25 +57,26 @@ app.post("/code/:to", async (req, res) => {
     });
 });
 
+//Create a post response to check if the code is correct
 app.post("/check/:to/:code", async (req, res) => {
   const phone = req.params.to;
   const code = req.params.code;
 
+  //Remove accesscode if the phone is verified
   const verifiedPhone = {
     id: phone,
     phoneNo: phone,
     accessCode: "",
   };
 
+  //Fetch the phone number and access code from firestore
   db.collection("users")
     .doc(phone)
     .get()
     .then((doc) => {
-      console.log(doc.data());
-      console.log(code);
-      console.log(phone);
+      //Check if the access code is correct and the document exist in FireStore
       if (doc.exists && doc.data().accessCode.toString() === code.toString()) {
-        console.log("Document data:", doc.data());
+        //If the access code is correct remove the access code from the document
         db.collection("users")
           .doc(phone)
           .set(verifiedPhone)
@@ -96,24 +86,11 @@ app.post("/check/:to/:code", async (req, res) => {
         res.json({ check: true });
       } else {
         // doc.data() will be undefined in this case
-        console.log("No such document!");
         res.json({ check: false });
       }
     })
+    //If there is an error fetching the document
     .catch((error) => {
       console.log("Error getting document:", error);
     });
-  // ref.once(phone, (data) => {
-  //   data.accessCode === code;
-  //   res.json({ check: true });
-  // });
-  // client.verify
-  //   .services(serviceId)
-  //   .verificationChecks.create({ to, code })
-  //   .then((verification) => {
-  //     res.json(verification);
-  //   })
-  //   .catch((err) => {
-  //     res.json(err);
-  //   });
 });

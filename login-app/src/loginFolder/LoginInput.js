@@ -6,7 +6,6 @@ const BaseURL = "http://localhost:8000";
 const LoginInput = () => {
   const [phone, setPhone] = useState("");
   const [verfication, setVerfication] = useState("");
-  // const [checkedNumber, setCheckedNumber] = useState("");
 
   const phoneInputHandler = (event) => {
     setPhone(event.target.value);
@@ -18,9 +17,10 @@ const LoginInput = () => {
     console.log(verfication);
   };
 
+  // Send verfication code to phone number function
   const sendCode = (event) => {
     event.preventDefault();
-    // send verfication code to phone number
+    //Fetch response from server
     fetch(`${BaseURL}/code/${phone}`, {
       method: "POST",
       headers: {
@@ -29,19 +29,20 @@ const LoginInput = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (res.status === "sent") {
           alert("Code sent");
         }
       })
       .catch((err) => {
-        console.log(err);
+        alert("Error sending code");
       });
   };
 
+  //verify the access code function
   const verifyCode = (event) => {
     event.preventDefault();
 
+    //Check if the phone number and access code are not empty
     if (phone.length !== 0 && verfication.length === 6) {
       // Now check if the verfication inserted was the same as
       // the one sent
@@ -62,8 +63,10 @@ const LoginInput = () => {
           }
         });
     } else if (verfication.length < 6) {
+      // If the access code is less than 6 digits
       alert("Please enter a valid access code");
     } else {
+      // If the phone number or access code is empty
       alert("Please enter both phone number and access code");
       return;
     }
