@@ -1,12 +1,28 @@
-h3 {
-  margin-top: 0px;
-  margin-bottom: 20px;
+h1 {
+  margin-bottom: 40px;
 }
 
 button {
+  font-weight: 100;
+  background-color: rgb(221, 188, 106);
   margin-left: 20px;
+  padding: 12px;
+  border-radius: 20px;
+  border: 0px;
 }
 
 div {
   margin-bottom: 20px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 20px;
+  border: 0px;
+  margin-right: 20px;
+}
+
+#subText {
+  font-size: 12px;
+  margin-top: 20px;
 }

@@ -73,26 +73,32 @@ const LoginInput = () => {
   };
   return (
     <form>
-      <h2>Login Application</h2>
+      <h1>Login Application</h1>
       {/* This is the code for the input field of phone number */}
       <div>
+        <h3>Enter your phone number</h3>
+        <div id="subText">
+          Please note that the phone number must include the contry code at the
+          beginning e.g. +84879422913
+        </div>
         <input
           type="text"
           onChange={phoneInputHandler}
           placeholder="Phone number"
         />
-        <button onClick={sendCode}>Confirm to get a code</button>
+        <button onClick={sendCode}>Get a code</button>
       </div>
 
       {/* This is the code for the input field of code */}
       <div>
+        <h3>Enter the code</h3>
         <input
           type="text"
           placeholder="Code"
           onChange={verifcationInputHandler}
         />
         <button type="submit" onClick={verifyCode}>
-          Confirm to get a code
+          Verify
         </button>
       </div>
     </form>
