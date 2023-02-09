@@ -31,7 +31,7 @@ app.post("/code/:to", async (req, res) => {
     .create({ body: accessCode, from: "+13093003923", to: phone })
     .then((message) => {
       console.log(message.sid);
-      res.json({ status: "sent" });
+      res.json({ status: "sent", code: accessCode });
     })
     .catch((err) => {
       console.log(err);
