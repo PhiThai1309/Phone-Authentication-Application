@@ -2,7 +2,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 <p align="center">
-<img height="450" alt="image" src="https://user-images.githubusercontent.com/71892904/217311080-4fba007a-1a92-4a89-8feb-293c839c5e93.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/71892904/217709943-bb6ea448-0c8e-4257-938a-9b26644a5e26.png">
 </p>
 
 ## Table of contents
@@ -10,7 +10,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [Overview](#overview)
 - [Functionalities](#Functionalities)
 - [Built with](#built-with)
+- [Setting up the environment](#Setting-up-the-environment)
+- [Limitation](#Limitation)
+- [Learn more](#Learn-more)
 - [Author](#author)
+- [References](#References)
 
 
 ## Overview
