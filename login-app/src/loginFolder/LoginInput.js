@@ -73,7 +73,7 @@ const LoginInput = () => {
   };
   return (
     <form>
-      <h1>Login Application</h1>
+      <h1>Phone Authentication</h1>
       {/* This is the code for the input field of phone number */}
       <div>
         <h3>Enter your phone number</h3>
