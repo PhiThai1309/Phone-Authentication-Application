@@ -94,7 +94,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser. 
   - The phone number must be in the correct form or else they will have a Error 21211: https://www.twilio.com/docs/api/errors/21211.
   
      ```e.g.: [+] [country code] [subscriber number including area code]```
-  - Using a free Twilio account to send a SMS message only limit to a verify phone number. In VietName, this case is only limit to register phone number associate with the corresponding host account. Error 21608: https://www.twilio.com/docs/api/errors/21608.
+  - Using a free Twilio account to send a SMS message only limit to a verify phone number. In VietNam, this case is only limit to register phone number associate with the corresponding host account. Error 21608: https://www.twilio.com/docs/api/errors/21608.
   - If sending a SMS message throw this error (Error 20003) https://www.twilio.com/docs/api/errors/20003 or any error that is related to permission, please contact me so I can update my authentication token. During development of this project, a authentication token changes many times so if you encountered this error, please let me know.
 
 ## Learn More
